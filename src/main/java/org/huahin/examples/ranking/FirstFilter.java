@@ -44,7 +44,7 @@ public class FirstFilter extends Filter {
         }
 
         String user = record.getValueString("USER");
-        String date = StringUtil.split(record.getValueString("DATE"), ' ', true)[0];
+        String date = StringUtil.split(record.getValueString("DATE"), " ", true)[0];
 
         Record emitRecord = new Record();
         emitRecord.addGrouping("DATE", date);

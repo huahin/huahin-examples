@@ -26,6 +26,7 @@ import org.huahin.core.SimpleJobTool;
 import org.huahin.core.Summarizer;
 import org.huahin.core.Writer;
 import org.huahin.core.io.Record;
+import org.huahin.core.util.StringUtil;
 
 /**
  *
@@ -107,7 +108,7 @@ public class DescSortJobTool extends SimpleJobTool {
     protected void setup() throws Exception {
         final String[] labels = new String[] { "USER", "DATE", "REFERER", "URL" };
 
-        SimpleJob job = addJob(labels);
+        SimpleJob job = addJob(labels, StringUtil.TAB);
         job.setFilter(URLFilter.class);
         job.setSummaizer(URLSummarizer.class);
     }

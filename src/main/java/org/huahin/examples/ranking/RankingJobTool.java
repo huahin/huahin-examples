@@ -19,6 +19,7 @@ package org.huahin.examples.ranking;
 
 import org.huahin.core.SimpleJob;
 import org.huahin.core.SimpleJobTool;
+import org.huahin.core.util.StringUtil;
 
 /**
  *
@@ -41,7 +42,7 @@ public class RankingJobTool extends SimpleJobTool {
     protected void setup() throws Exception {
         final String[] labels = new String[] { "USER", "DATE", "REFERER", "URL" };
 
-        SimpleJob job1 = addJob(labels);
+        SimpleJob job1 = addJob(labels, StringUtil.TAB);
         job1.setFilter(FirstFilter.class);
         job1.setSummaizer(FirstSummarizer.class);
 
