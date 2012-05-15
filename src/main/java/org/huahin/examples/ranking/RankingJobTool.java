@@ -1,0 +1,51 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.huahin.examples.ranking;
+
+import org.huahin.core.SimpleJob;
+import org.huahin.core.SimpleJobTool;
+
+/**
+ *
+ */
+public class RankingJobTool extends SimpleJobTool {
+    @Override
+    protected String setInputPath(String[] args) {
+        return args[0];
+    }
+
+    @Override
+    protected String setOutputPath(String[] args) {
+        return args[1];
+    }
+
+    /* (non-Javadoc)
+     * @see org.huahin.core.SimpleJobTool#setup()
+     */
+    @Override
+    protected void setup() throws Exception {
+        final String[] labels = new String[] { "USER", "DATE", "REFERER", "URL" };
+
+        SimpleJob job1 = addJob(labels);
+        job1.setFilter(FirstFilter.class);
+        job1.setSummaizer(FirstSummarizer.class);
+
+        SimpleJob job2 = addJob();
+        job2.setSummaizer(SecondSummarizer.class);
+    }
+}
