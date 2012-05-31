@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahin.examples.ranking;
+package org.huahin.examples.userranking;
 
 import org.huahin.core.SimpleJob;
 import org.huahin.core.SimpleJobTool;
@@ -24,7 +24,7 @@ import org.huahin.core.util.StringUtil;
 /**
  *
  */
-public class RankingJobTool extends SimpleJobTool {
+public class UserRankingJobTool extends SimpleJobTool {
     @Override
     protected String setInputPath(String[] args) {
         return args[0];

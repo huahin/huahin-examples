@@ -15,13 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahin.examples.ranking;
+package org.huahin.examples.userranking;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.huahin.core.Summarizer;
 import org.huahin.core.io.Record;
+import org.huahin.examples.userranking.SecondSummarizer;
 import org.huahin.unit.SummarizerDriver;
 import org.junit.Test;
 
@@ -32,44 +33,37 @@ public class SecondSummarizerTest extends SummarizerDriver {
 
     @Test
     public void test() {
-        int j = 1000;
-
         List<Record> input = new ArrayList<Record>();
-        for (int i = 100; i > 0; i--) {
-            input.add(createInputRecord("/index" + i + ".html", j--, i));
-        }
+        input.add(createInputRecord("/index.html", "1", 90));
+        input.add(createInputRecord("/index.html", "2", 80));
+        input.add(createInputRecord("/index.html", "3", 70));
+        input.add(createInputRecord("/index.html", "4", 60));
+        input.add(createInputRecord("/index.html", "5", 50));
 
         List<Record> output = new ArrayList<Record>();
-        j = 1000;
-        int rank = 1;
-        for (int i = 100; i > 50; i--) {
-            output.add(createOutputRecord("/index" + i + ".html", rank++, j--, i));
-        }
+        output.add(createOutputRecord("/index.html", "1", 1, 90));
+        output.add(createOutputRecord("/index.html", "2", 2, 80));
+        output.add(createOutputRecord("/index.html", "3", 3, 70));
 
         run(input, output);
     }
 
-    private Record createInputRecord(String path, int pv, int uu) {
+    private Record createInputRecord(String path, String user, int pv) {
         Record record = new Record();
-        record.addGrouping("DATE", "2000-01-01");
-
-        record.addSort(2, Record.SORT_UPPER, 1);
-
-        record.addValue("PATH", path);
+        record.addGrouping("PATH", path);
+        record.addSort(pv, Record.SORT_UPPER, 1);
+        record.addValue("USER", user);
         record.addValue("PV", pv);
-        record.addValue("UU", uu);
         return record;
     }
 
-    private Record createOutputRecord(String path, int rank, int pv, int uu) {
+    private Record createOutputRecord(String path, String user, int rank, int pv) {
         Record record = new Record();
+        record.addGrouping("PATH", path);
         record.addSort(2, Record.SORT_UPPER, 1);
-
-        record.addGrouping("DATE", "2000-01-01");
-        record.addValue("PATH", path);
         record.addValue("RANK", rank);
+        record.addValue("USER", user);
         record.addValue("PV", pv);
-        record.addValue("UU", uu);
         return record;
     }
 

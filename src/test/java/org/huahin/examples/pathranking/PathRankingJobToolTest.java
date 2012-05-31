@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahin.examples.ranking;
+package org.huahin.examples.pathranking;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,13 +23,16 @@ import java.util.List;
 
 import org.huahin.core.io.Record;
 import org.huahin.core.util.StringUtil;
+import org.huahin.examples.pathranking.FirstFilter;
+import org.huahin.examples.pathranking.FirstSummarizer;
+import org.huahin.examples.pathranking.SecondSummarizer;
 import org.huahin.unit.JobDriver;
 import org.junit.Test;
 
 /**
  *
  */
-public class RankingJobToolTest extends JobDriver {
+public class PathRankingJobToolTest extends JobDriver {
     private final String[] LABELS = new String[] { "USER", "DATE", "REFERER", "URL" };
 
     @Test

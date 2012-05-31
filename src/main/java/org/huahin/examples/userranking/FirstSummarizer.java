@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahin.examples.ranking;
+package org.huahin.examples.userranking;
 
 import java.io.IOException;
 
@@ -28,13 +28,11 @@ import org.huahin.core.io.Record;
  */
 public class FirstSummarizer extends Summarizer {
     private int pv;
-    private int uu;
     private String previousUser;
 
     @Override
     public void init() {
         pv = 0;
-        uu = 0;
         previousUser = null;
     }
 
@@ -43,7 +41,15 @@ public class FirstSummarizer extends Summarizer {
             throws IOException, InterruptedException {
         String user = record.getValueString("USER");
         if (!user.equals(previousUser)) {
-            uu++;
+            if (previousUser != null) {
+                Record emitRecord = new Record();
+                emitRecord.addSort(pv, Record.SORT_UPPER, 1);
+                emitRecord.addValue("USER", previousUser);
+                emitRecord.addValue("PV", pv);
+                writer.write(emitRecord);
+            }
+
+            pv = 0;
             previousUser = user;
         }
 
@@ -55,14 +61,9 @@ public class FirstSummarizer extends Summarizer {
     public void end(Record record, Writer writer)
             throws IOException, InterruptedException {
         Record emitRecord = new Record();
-        emitRecord.addGrouping("DATE", record.getGroupingString("DATE"));
-
-        emitRecord.addSort(uu, Record.SORT_UPPER, 1);
-
-        emitRecord.addValue("PATH", record.getGroupingString("PATH"));
+        emitRecord.addSort(pv, Record.SORT_UPPER, 1);
+        emitRecord.addValue("USER", previousUser);
         emitRecord.addValue("PV", pv);
-        emitRecord.addValue("UU", uu);
-
         writer.write(emitRecord);
     }
 

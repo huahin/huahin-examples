@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahin.examples.ranking;
+package org.huahin.examples.userranking;
 
 import java.io.IOException;
 
@@ -37,15 +37,14 @@ public class SecondSummarizer extends Summarizer {
     @Override
     public boolean summarizer(Record record, Writer writer)
             throws IOException, InterruptedException {
-        if (rank > 50) {
+        if (rank > 3) {
             return true;
         }
 
         Record emitRecord = new Record();
-        emitRecord.addValue("PATH", record.getValueString("PATH"));
         emitRecord.addValue("RANK", rank);
+        emitRecord.addValue("USER", record.getValueString("USER"));
         emitRecord.addValue("PV", record.getValueInteger("PV"));
-        emitRecord.addValue("UU", record.getValueInteger("UU"));
 
         writer.write(emitRecord);
 

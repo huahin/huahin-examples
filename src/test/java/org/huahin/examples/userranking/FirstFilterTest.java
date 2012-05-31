@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahin.examples.ranking;
+package org.huahin.examples.userranking;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +23,7 @@ import java.util.List;
 import org.huahin.core.Filter;
 import org.huahin.core.io.Record;
 import org.huahin.core.util.StringUtil;
+import org.huahin.examples.userranking.FirstFilter;
 import org.huahin.unit.FilterDriver;
 import org.junit.Test;
 
@@ -38,7 +39,6 @@ public class FirstFilterTest extends FilterDriver {
 
         List<Record> output = new ArrayList<Record>();
         Record record = new Record();
-        record.addGrouping("DATE", "2000-01-01");
         record.addGrouping("PATH", "/index.html");
         record.addSort("1", Record.SORT_LOWER, 1);
         record.addValue("USER", "1");

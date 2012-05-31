@@ -18,8 +18,9 @@
 package org.huahin.examples;
 
 import org.huahin.core.Runner;
-import org.huahin.examples.ranking.RankingJobTool;
+import org.huahin.examples.pathranking.PathRankingJobTool;
 import org.huahin.examples.top10.DescSortJobTool;
+import org.huahin.examples.userranking.UserRankingJobTool;
 
 /**
  *
@@ -43,7 +44,8 @@ public class Jobs {
 
         Runner runner = new Runner();
         runner.addJob("DescSort", DescSortJobTool.class);
-        runner.addJob("Ranking", RankingJobTool.class);
+        runner.addJob("PathRanking", PathRankingJobTool.class);
+        runner.addJob("UserRanking", UserRankingJobTool.class);
 
         int status = runner.run(jobName, newArgs);
         System.exit(status);

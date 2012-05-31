@@ -15,49 +15,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahin.examples.ranking;
+package org.huahin.examples.pathranking;
 
-import java.io.IOException;
-import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.huahin.core.Filter;
-import org.huahin.core.Writer;
 import org.huahin.core.io.Record;
 import org.huahin.core.util.StringUtil;
+import org.huahin.examples.pathranking.FirstFilter;
+import org.huahin.unit.FilterDriver;
+import org.junit.Test;
 
 /**
  *
  */
-public class FirstFilter extends Filter {
-    @Override
-    public void init() {
+public class FirstFilterTest extends FilterDriver {
+    private final String[] LABELS = new String[] { "USER", "DATE", "REFERER", "URL" };
+
+    @Test
+    public void test() {
+        String input = "1\t2000-01-01 00:00:00\t\thttp://localdomain.local/index.html";
+
+        List<Record> output = new ArrayList<Record>();
+        Record record = new Record();
+        record.addGrouping("DATE", "2000-01-01");
+        record.addGrouping("PATH", "/index.html");
+        record.addSort("1", Record.SORT_LOWER, 1);
+        record.addValue("USER", "1");
+        output.add(record);
+
+        run(LABELS, StringUtil.TAB, false, input, output);
     }
 
     @Override
-    public void filter(Record record, Writer writer)
-            throws IOException, InterruptedException {
-        String url = record.getValueString("URL");
-        URI uri = URI.create(url);
-        String path = uri.getPath();
-        if (path == null) {
-            return;
-        }
-
-        String user = record.getValueString("USER");
-        String date = StringUtil.split(record.getValueString("DATE"), " ", true)[0];
-
-        Record emitRecord = new Record();
-        emitRecord.addGrouping("DATE", date);
-        emitRecord.addGrouping("PATH", path);
-
-        emitRecord.addSort(user, Record.SORT_LOWER, 1);
-
-        emitRecord.addValue("USER", user);
-
-        writer.write(emitRecord);
-    }
-
-    @Override
-    public void filterSetup() {
+    public Filter getFilter() {
+        return new FirstFilter();
     }
 }
