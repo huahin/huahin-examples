@@ -27,39 +27,35 @@ import org.huahin.core.io.Record;
  *
  */
 public class FirstSummarizer extends Summarizer {
-    private int pv;
-    private String previousUser;
-
     @Override
     public void init() {
-        pv = 0;
-        previousUser = null;
     }
 
     @Override
-    public boolean summarizer(Record record, Writer writer)
+    public void summarizer(Writer writer)
             throws IOException, InterruptedException {
-        String user = record.getValueString("USER");
-        if (!user.equals(previousUser)) {
-            if (previousUser != null) {
-                Record emitRecord = new Record();
-                emitRecord.addSort(pv, Record.SORT_UPPER, 1);
-                emitRecord.addValue("USER", previousUser);
-                emitRecord.addValue("PV", pv);
-                writer.write(emitRecord);
+        int pv = 0;
+        String previousUser = null;
+
+        while (hasNext()) {
+            Record record = next(writer);
+            String user = record.getValueString("USER");
+            if (!user.equals(previousUser)) {
+                if (previousUser != null) {
+                    Record emitRecord = new Record();
+                    emitRecord.addSort(pv, Record.SORT_UPPER, 1);
+                    emitRecord.addValue("USER", previousUser);
+                    emitRecord.addValue("PV", pv);
+                    writer.write(emitRecord);
+                }
+
+                pv = 0;
+                previousUser = user;
             }
 
-            pv = 0;
-            previousUser = user;
+            pv++;
         }
 
-        pv++;
-        return false;
-    }
-
-    @Override
-    public void end(Record record, Writer writer)
-            throws IOException, InterruptedException {
         Record emitRecord = new Record();
         emitRecord.addSort(pv, Record.SORT_UPPER, 1);
         emitRecord.addValue("USER", previousUser);

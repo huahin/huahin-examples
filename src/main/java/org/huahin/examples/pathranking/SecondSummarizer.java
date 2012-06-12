@@ -27,35 +27,29 @@ import org.huahin.core.io.Record;
  *
  */
 public class SecondSummarizer extends Summarizer {
-    private int rank;
-
     @Override
     public void init() {
-        rank = 1;
     }
 
     @Override
-    public boolean summarizer(Record record, Writer writer)
+    public void summarizer(Writer writer)
             throws IOException, InterruptedException {
-        if (rank > 50) {
-            return true;
+        int rank = 1;
+        while (hasNext()) {
+            if (rank > 50) {
+                break;
+            }
+
+            Record record = next(writer);
+            Record emitRecord = new Record();
+            emitRecord.addValue("PATH", record.getValueString("PATH"));
+            emitRecord.addValue("RANK", rank);
+            emitRecord.addValue("PV", record.getValueInteger("PV"));
+            emitRecord.addValue("UU", record.getValueInteger("UU"));
+
+            writer.write(emitRecord);
+            rank++;
         }
-
-        Record emitRecord = new Record();
-        emitRecord.addValue("PATH", record.getValueString("PATH"));
-        emitRecord.addValue("RANK", rank);
-        emitRecord.addValue("PV", record.getValueInteger("PV"));
-        emitRecord.addValue("UU", record.getValueInteger("UU"));
-
-        writer.write(emitRecord);
-
-        rank++;
-        return false;
-    }
-
-    @Override
-    public void end(Record values, Writer writer)
-            throws IOException, InterruptedException {
     }
 
     @Override

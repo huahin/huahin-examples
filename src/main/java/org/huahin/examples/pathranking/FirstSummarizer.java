@@ -27,39 +27,34 @@ import org.huahin.core.io.Record;
  *
  */
 public class FirstSummarizer extends Summarizer {
-    private int pv;
-    private int uu;
-    private String previousUser;
-
     @Override
     public void init() {
-        pv = 0;
-        uu = 0;
-        previousUser = null;
     }
 
     @Override
-    public boolean summarizer(Record record, Writer writer)
+    public void summarizer(Writer writer)
             throws IOException, InterruptedException {
-        String user = record.getValueString("USER");
-        if (!user.equals(previousUser)) {
-            uu++;
-            previousUser = user;
+        int pv = 0;
+        int uu = 0;
+        String previousUser = null;
+
+        while (hasNext()) {
+            Record record = next(writer);
+            String user = record.getValueString("USER");
+            if (!user.equals(previousUser)) {
+                uu++;
+                previousUser = user;
+            }
+
+            pv++;
         }
 
-        pv++;
-        return false;
-    }
-
-    @Override
-    public void end(Record record, Writer writer)
-            throws IOException, InterruptedException {
         Record emitRecord = new Record();
-        emitRecord.addGrouping("DATE", record.getGroupingString("DATE"));
+        emitRecord.addGrouping("DATE", getGroupingRecord().getGroupingString("DATE"));
 
         emitRecord.addSort(uu, Record.SORT_UPPER, 1);
 
-        emitRecord.addValue("PATH", record.getGroupingString("PATH"));
+        emitRecord.addValue("PATH", getGroupingRecord().getGroupingString("PATH"));
         emitRecord.addValue("PV", pv);
         emitRecord.addValue("UU", uu);
 

@@ -75,24 +75,18 @@ public class DescSortJobTool extends SimpleJobTool {
     }
 
     public static class URLSummarizer extends Summarizer {
-        private int cnt = 0;
-
         @Override
-        public boolean summarizer(Record record, Writer writer)
+        public void summarizer(Writer writer)
                 throws IOException, InterruptedException {
-            if (cnt == 10) {
-                return true;
+            int cnt = 0;
+            while (hasNext()) {
+                if (cnt == 10) {
+                    break;
+                }
+
+                writer.write(next(writer));
+                cnt++;
             }
-
-            writer.write(record);
-
-            cnt++;
-            return false;
-        }
-
-        @Override
-        public void end(Record record, Writer writer)
-                throws IOException, InterruptedException {
         }
 
         @Override
