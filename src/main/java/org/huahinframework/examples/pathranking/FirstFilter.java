@@ -15,53 +15,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahin.examples.pathranking;
+package org.huahinframework.examples.pathranking;
 
 import java.io.IOException;
+import java.net.URI;
 
-import org.huahin.core.Summarizer;
-import org.huahin.core.Writer;
-import org.huahin.core.io.Record;
+import org.huahinframework.core.Filter;
+import org.huahinframework.core.Writer;
+import org.huahinframework.core.io.Record;
+import org.huahinframework.core.util.StringUtil;
 
 /**
  *
  */
-public class FirstSummarizer extends Summarizer {
+public class FirstFilter extends Filter {
     @Override
     public void init() {
     }
 
     @Override
-    public void summarizer(Writer writer)
+    public void filter(Record record, Writer writer)
             throws IOException, InterruptedException {
-        int pv = 0;
-        int uu = 0;
-        String previousUser = null;
-
-        while (hasNext()) {
-            Record record = next(writer);
-            String user = record.getValueString("USER");
-            if (!user.equals(previousUser)) {
-                uu++;
-                previousUser = user;
-            }
-
-            pv++;
+        String url = record.getValueString("URL");
+        URI uri = URI.create(url);
+        String path = uri.getPath();
+        if (path == null) {
+            return;
         }
 
+        String user = record.getValueString("USER");
+        String date = StringUtil.split(record.getValueString("DATE"), " ", true)[0];
+
         Record emitRecord = new Record();
-        emitRecord.addGrouping("DATE", getGroupingRecord().getGroupingString("DATE"));
+        emitRecord.addGrouping("DATE", date);
+        emitRecord.addGrouping("PATH", path);
 
-        emitRecord.addSort(uu, Record.SORT_UPPER, 1);
+        emitRecord.addSort(user, Record.SORT_LOWER, 1);
 
-        emitRecord.addValue("PATH", getGroupingRecord().getGroupingString("PATH"));
-        emitRecord.addValue("PV", pv);
-        emitRecord.addValue("UU", uu);
+        emitRecord.addValue("USER", user);
 
         writer.write(emitRecord);
     }
 
     @Override
-    public void summarizerSetup() {
+    public void filterSetup() {
     }
 }

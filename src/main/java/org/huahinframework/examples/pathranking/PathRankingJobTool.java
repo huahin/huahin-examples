@@ -15,44 +15,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahin.examples.userranking;
+package org.huahinframework.examples.pathranking;
 
-import java.io.IOException;
-import java.net.URI;
-
-import org.huahin.core.Filter;
-import org.huahin.core.Writer;
-import org.huahin.core.io.Record;
+import org.huahinframework.core.SimpleJob;
+import org.huahinframework.core.SimpleJobTool;
+import org.huahinframework.core.util.StringUtil;
 
 /**
  *
  */
-public class FirstFilter extends Filter {
+public class PathRankingJobTool extends SimpleJobTool {
     @Override
-    public void init() {
+    protected String setInputPath(String[] args) {
+        return args[0];
     }
 
     @Override
-    public void filter(Record record, Writer writer)
-            throws IOException, InterruptedException {
-        String url = record.getValueString("URL");
-        URI uri = URI.create(url);
-        String path = uri.getPath();
-        if (path == null) {
-            return;
-        }
-
-        String user = record.getValueString("USER");
-
-        Record emitRecord = new Record();
-        emitRecord.addGrouping("PATH", path);
-        emitRecord.addSort(user, Record.SORT_LOWER, 1);
-        emitRecord.addValue("USER", user);
-
-        writer.write(emitRecord);
+    protected String setOutputPath(String[] args) {
+        return args[1];
     }
 
+    /* (non-Javadoc)
+     * @see org.huahin.core.SimpleJobTool#setup()
+     */
     @Override
-    public void filterSetup() {
+    protected void setup() throws Exception {
+        final String[] labels = new String[] { "USER", "DATE", "REFERER", "URL" };
+
+        SimpleJob job1 = addJob(labels, StringUtil.TAB);
+        job1.setFilter(FirstFilter.class);
+        job1.setSummaizer(FirstSummarizer.class);
+
+        SimpleJob job2 = addJob();
+        job2.setSummaizer(SecondSummarizer.class);
     }
 }

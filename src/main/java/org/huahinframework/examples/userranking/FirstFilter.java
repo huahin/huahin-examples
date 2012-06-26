@@ -15,44 +15,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahin.examples.pathranking;
+package org.huahinframework.examples.userranking;
 
 import java.io.IOException;
+import java.net.URI;
 
-import org.huahin.core.Summarizer;
-import org.huahin.core.Writer;
-import org.huahin.core.io.Record;
+import org.huahinframework.core.Filter;
+import org.huahinframework.core.Writer;
+import org.huahinframework.core.io.Record;
 
 /**
  *
  */
-public class SecondSummarizer extends Summarizer {
+public class FirstFilter extends Filter {
     @Override
     public void init() {
     }
 
     @Override
-    public void summarizer(Writer writer)
+    public void filter(Record record, Writer writer)
             throws IOException, InterruptedException {
-        int rank = 1;
-        while (hasNext()) {
-            if (rank > 50) {
-                break;
-            }
-
-            Record record = next(writer);
-            Record emitRecord = new Record();
-            emitRecord.addValue("PATH", record.getValueString("PATH"));
-            emitRecord.addValue("RANK", rank);
-            emitRecord.addValue("PV", record.getValueInteger("PV"));
-            emitRecord.addValue("UU", record.getValueInteger("UU"));
-
-            writer.write(emitRecord);
-            rank++;
+        String url = record.getValueString("URL");
+        URI uri = URI.create(url);
+        String path = uri.getPath();
+        if (path == null) {
+            return;
         }
+
+        String user = record.getValueString("USER");
+
+        Record emitRecord = new Record();
+        emitRecord.addGrouping("PATH", path);
+        emitRecord.addSort(user, Record.SORT_LOWER, 1);
+        emitRecord.addValue("USER", user);
+
+        writer.write(emitRecord);
     }
 
     @Override
-    public void summarizerSetup() {
+    public void filterSetup() {
     }
 }

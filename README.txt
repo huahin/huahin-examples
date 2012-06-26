@@ -1,6 +1,6 @@
 Huahin Examples is an example run using the Huahin Core.
 Equipped with the example of several.
-Please implement with reference to this example.
+Perform the development of applications with reference to this example.
 
 Example that is registered, is an application to manipulate all the Web log.
 

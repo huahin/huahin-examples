@@ -15,18 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahin.examples.top10;
+package org.huahinframework.examples.top10;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.huahin.core.Filter;
-import org.huahin.core.io.Record;
-import org.huahin.core.util.StringUtil;
-import org.huahin.unit.FilterDriver;
+import org.huahinframework.core.Filter;
+import org.huahinframework.core.io.Record;
+import org.huahinframework.core.util.StringUtil;
+import org.huahinframework.unit.FilterDriver;
 import org.junit.Test;
 
-import org.huahin.examples.top10.DescSortJobTool.URLFilter;
+import org.huahinframework.examples.top10.DescSortJobTool.URLFilter;
 
 /**
  *

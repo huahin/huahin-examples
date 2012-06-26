@@ -15,57 +15,64 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahin.examples.top10;
+package org.huahinframework.examples.pathranking;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.huahin.core.io.Record;
-import org.huahin.core.util.StringUtil;
-import org.huahin.unit.JobDriver;
+import org.huahinframework.core.io.Record;
+import org.huahinframework.core.util.StringUtil;
+import org.huahinframework.unit.JobDriver;
+import org.huahinframework.examples.pathranking.FirstFilter;
+import org.huahinframework.examples.pathranking.FirstSummarizer;
+import org.huahinframework.examples.pathranking.SecondSummarizer;
 import org.junit.Test;
-
-import org.huahin.examples.top10.DescSortJobTool.URLFilter;
-import org.huahin.examples.top10.DescSortJobTool.URLSummarizer;
 
 /**
  *
  */
-public class DescSortJobToolTest extends JobDriver {
+public class PathRankingJobToolTest extends JobDriver {
     private final String[] LABELS = new String[] { "USER", "DATE", "REFERER", "URL" };
+
     @Test
     public void test()
             throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException {
-        addJob(LABELS, StringUtil.TAB, false).setFilter(URLFilter.class)
-                                             .setSummaizer(URLSummarizer.class);
+        addJob(LABELS, StringUtil.TAB, false).setFilter(FirstFilter.class)
+                                             .setSummaizer(FirstSummarizer.class);
+        addJob().setSummaizer(SecondSummarizer.class);
 
         List<String> input = new ArrayList<String>();
-        for (int i = 23; i >= 0; i--) {
-            input.add(createString(i));
+        int uu = 1;
+        for (int i = 1; i <= 100; i++) {
+            for (int j = uu; j <= 100; j++) {
+                input.add(createInputData(String.valueOf(j), "/index" + i + ".html"));
+            }
+            uu++;
         }
 
         List<Record> output = new ArrayList<Record>();
-        for (int i = 23; i > 13; i--) {
-            output.add(createRecord(i));
+        int num = 100;
+        for (int i = 1; i <= 50; i++, num--) {
+            output.add(createOutputData("/index" + i + ".html", i, num, num));
         }
 
         run(input, output, true);
     }
 
-    private String createString(int hour) {
-        return "1\t2000-01-01 " +
-               String.format("%02d", hour) +
-               ":00:00\t\thttp://localdomain.local/index.html";
+    private String createInputData(String user, String path) {
+        return user + "\t2000-01-01 00:00:00\t\thttp://localdomain.local" + path;
     }
 
-    private Record createRecord(int hour) {
+    private Record createOutputData(String path, int rank, int pv, int uu) {
         Record record = new Record();
+        record.addSort(uu, Record.SORT_UPPER, 1);
+
         record.addGrouping("DATE", "2000-01-01");
-        record.addSort("2000-01-01 " + hour + ":00:00", Record.SORT_UPPER, 1);
-        record.addValue("DATE", "2000-01-01 " + hour + ":00:00");
-        record.addValue("URL", "http://localdomain.local/index.html");
+        record.addValue("PATH", path);
+        record.addValue("RANK", rank);
+        record.addValue("PV", pv);
+        record.addValue("UU", uu);
         return record;
     }
-
 }

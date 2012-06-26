@@ -15,49 +15,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahin.examples.top10;
+package org.huahinframework.examples.userranking;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.huahin.core.Summarizer;
-import org.huahin.core.io.Record;
-import org.huahin.unit.SummarizerDriver;
+import org.huahinframework.core.Filter;
+import org.huahinframework.core.io.Record;
+import org.huahinframework.core.util.StringUtil;
+import org.huahinframework.unit.FilterDriver;
+import org.huahinframework.examples.userranking.FirstFilter;
 import org.junit.Test;
-
-import org.huahin.examples.top10.DescSortJobTool.URLSummarizer;
-
 
 /**
  *
  */
-public class URLSummarizerTest extends SummarizerDriver {
+public class FirstFilterTest extends FilterDriver {
+    private final String[] LABELS = new String[] { "USER", "DATE", "REFERER", "URL" };
+
     @Test
     public void test() {
-        List<Record> input = new ArrayList<Record>();
-        for (int i = 23; i >= 0; i--) {
-            input.add(createRecord(i));
-        }
+        String input = "1\t2000-01-01 00:00:00\t\thttp://localdomain.local/index.html";
 
         List<Record> output = new ArrayList<Record>();
-        for (int i = 23; i > 13; i--) {
-            output.add(createRecord(i));
-        }
-
-        run(input, output);
-    }
-
-    private Record createRecord(int hour) {
         Record record = new Record();
-        record.addGrouping("DATE", "2000-01-01");
-        record.addSort("2000-01-01 " + hour + ":00:00", Record.SORT_UPPER, 1);
-        record.addValue("DATE", "2000-01-01 " + hour + ":00:00");
-        record.addValue("URL", "http://localdomain.local/index.html");
-        return record;
+        record.addGrouping("PATH", "/index.html");
+        record.addSort("1", Record.SORT_LOWER, 1);
+        record.addValue("USER", "1");
+        output.add(record);
+
+        run(LABELS, StringUtil.TAB, false, input, output);
     }
 
     @Override
-    public Summarizer getSummarizer() {
-        return new URLSummarizer();
+    public Filter getFilter() {
+        return new FirstFilter();
     }
 }

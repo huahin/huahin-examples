@@ -15,16 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahin.examples.pathranking;
+package org.huahinframework.examples.pathranking;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.huahin.core.Filter;
-import org.huahin.core.io.Record;
-import org.huahin.core.util.StringUtil;
-import org.huahin.examples.pathranking.FirstFilter;
-import org.huahin.unit.FilterDriver;
+import org.huahinframework.core.Filter;
+import org.huahinframework.core.io.Record;
+import org.huahinframework.core.util.StringUtil;
+import org.huahinframework.unit.FilterDriver;
+import org.huahinframework.examples.pathranking.FirstFilter;
 import org.junit.Test;
 
 /**

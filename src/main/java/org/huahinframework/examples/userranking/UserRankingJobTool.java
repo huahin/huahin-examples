@@ -15,11 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahin.examples.userranking;
+package org.huahinframework.examples.userranking;
 
-import org.huahin.core.SimpleJob;
-import org.huahin.core.SimpleJobTool;
-import org.huahin.core.util.StringUtil;
+import org.huahinframework.core.SimpleJob;
+import org.huahinframework.core.SimpleJobTool;
+import org.huahinframework.core.util.StringUtil;
 
 /**
  *

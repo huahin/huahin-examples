@@ -15,18 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahin.examples.top10;
+package org.huahinframework.examples.top10;
 
 import java.io.IOException;
 import java.util.regex.Pattern;
 
-import org.huahin.core.Filter;
-import org.huahin.core.SimpleJob;
-import org.huahin.core.SimpleJobTool;
-import org.huahin.core.Summarizer;
-import org.huahin.core.Writer;
-import org.huahin.core.io.Record;
-import org.huahin.core.util.StringUtil;
+import org.huahinframework.core.Filter;
+import org.huahinframework.core.SimpleJob;
+import org.huahinframework.core.SimpleJobTool;
+import org.huahinframework.core.Summarizer;
+import org.huahinframework.core.Writer;
+import org.huahinframework.core.io.Record;
+import org.huahinframework.core.util.StringUtil;
 
 /**
  *

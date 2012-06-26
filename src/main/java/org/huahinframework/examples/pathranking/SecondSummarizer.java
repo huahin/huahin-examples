@@ -15,49 +15,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahin.examples.pathranking;
+package org.huahinframework.examples.pathranking;
 
 import java.io.IOException;
-import java.net.URI;
 
-import org.huahin.core.Filter;
-import org.huahin.core.Writer;
-import org.huahin.core.io.Record;
-import org.huahin.core.util.StringUtil;
+import org.huahinframework.core.Summarizer;
+import org.huahinframework.core.Writer;
+import org.huahinframework.core.io.Record;
 
 /**
  *
  */
-public class FirstFilter extends Filter {
+public class SecondSummarizer extends Summarizer {
     @Override
     public void init() {
     }
 
     @Override
-    public void filter(Record record, Writer writer)
+    public void summarizer(Writer writer)
             throws IOException, InterruptedException {
-        String url = record.getValueString("URL");
-        URI uri = URI.create(url);
-        String path = uri.getPath();
-        if (path == null) {
-            return;
+        int rank = 1;
+        while (hasNext()) {
+            if (rank > 50) {
+                break;
+            }
+
+            Record record = next(writer);
+            Record emitRecord = new Record();
+            emitRecord.addValue("PATH", record.getValueString("PATH"));
+            emitRecord.addValue("RANK", rank);
+            emitRecord.addValue("PV", record.getValueInteger("PV"));
+            emitRecord.addValue("UU", record.getValueInteger("UU"));
+
+            writer.write(emitRecord);
+            rank++;
         }
-
-        String user = record.getValueString("USER");
-        String date = StringUtil.split(record.getValueString("DATE"), " ", true)[0];
-
-        Record emitRecord = new Record();
-        emitRecord.addGrouping("DATE", date);
-        emitRecord.addGrouping("PATH", path);
-
-        emitRecord.addSort(user, Record.SORT_LOWER, 1);
-
-        emitRecord.addValue("USER", user);
-
-        writer.write(emitRecord);
     }
 
     @Override
-    public void filterSetup() {
+    public void summarizerSetup() {
     }
 }

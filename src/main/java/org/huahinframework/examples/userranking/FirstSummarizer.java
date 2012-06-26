@@ -15,13 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahin.examples.userranking;
+package org.huahinframework.examples.userranking;
 
 import java.io.IOException;
 
-import org.huahin.core.Summarizer;
-import org.huahin.core.Writer;
-import org.huahin.core.io.Record;
+import org.huahinframework.core.Summarizer;
+import org.huahinframework.core.Writer;
+import org.huahinframework.core.io.Record;
 
 /**
  *

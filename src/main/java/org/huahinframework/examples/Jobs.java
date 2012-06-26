@@ -15,12 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahin.examples;
+package org.huahinframework.examples;
 
-import org.huahin.core.Runner;
-import org.huahin.examples.pathranking.PathRankingJobTool;
-import org.huahin.examples.top10.DescSortJobTool;
-import org.huahin.examples.userranking.UserRankingJobTool;
+import org.huahinframework.core.Runner;
+import org.huahinframework.examples.pathranking.PathRankingJobTool;
+import org.huahinframework.examples.top10.DescSortJobTool;
+import org.huahinframework.examples.userranking.UserRankingJobTool;
 
 /**
  *

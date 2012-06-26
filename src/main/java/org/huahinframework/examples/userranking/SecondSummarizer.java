@@ -15,38 +15,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahin.examples.pathranking;
+package org.huahinframework.examples.userranking;
 
-import org.huahin.core.SimpleJob;
-import org.huahin.core.SimpleJobTool;
-import org.huahin.core.util.StringUtil;
+import java.io.IOException;
+
+import org.huahinframework.core.Summarizer;
+import org.huahinframework.core.Writer;
+import org.huahinframework.core.io.Record;
 
 /**
  *
  */
-public class PathRankingJobTool extends SimpleJobTool {
+public class SecondSummarizer extends Summarizer {
     @Override
-    protected String setInputPath(String[] args) {
-        return args[0];
+    public void init() {
     }
 
     @Override
-    protected String setOutputPath(String[] args) {
-        return args[1];
+    public void summarizer(Writer writer)
+            throws IOException, InterruptedException {
+        int rank = 1;
+        while (hasNext()) {
+            if (rank > 3) {
+                break;
+            }
+            Record record = next(writer);
+
+            Record emitRecord = new Record();
+            emitRecord.addValue("RANK", rank);
+            emitRecord.addValue("USER", record.getValueString("USER"));
+            emitRecord.addValue("PV", record.getValueInteger("PV"));
+
+            writer.write(emitRecord);
+
+            rank++;
+        }
     }
 
-    /* (non-Javadoc)
-     * @see org.huahin.core.SimpleJobTool#setup()
-     */
     @Override
-    protected void setup() throws Exception {
-        final String[] labels = new String[] { "USER", "DATE", "REFERER", "URL" };
-
-        SimpleJob job1 = addJob(labels, StringUtil.TAB);
-        job1.setFilter(FirstFilter.class);
-        job1.setSummaizer(FirstSummarizer.class);
-
-        SimpleJob job2 = addJob();
-        job2.setSummaizer(SecondSummarizer.class);
+    public void summarizerSetup() {
     }
 }
