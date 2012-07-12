@@ -21,6 +21,8 @@ import org.huahinframework.core.Runner;
 import org.huahinframework.examples.pathranking.PathRankingJobTool;
 import org.huahinframework.examples.top10.DescSortJobTool;
 import org.huahinframework.examples.userranking.UserRankingJobTool;
+import org.huahinframework.examples.wordcount.huahin.HuahinWordCountTool;
+import org.huahinframework.examples.wordcount.natural.NaturalWordCountTool;
 
 /**
  *
@@ -46,6 +48,8 @@ public class Jobs {
         runner.addJob("DescSort", DescSortJobTool.class);
         runner.addJob("PathRanking", PathRankingJobTool.class);
         runner.addJob("UserRanking", UserRankingJobTool.class);
+        runner.addJob("HuahinWordCount", HuahinWordCountTool.class);
+        runner.addJob("NaturalWordCount", NaturalWordCountTool.class);
 
         int status = runner.run(jobName, newArgs);
         System.exit(status);
