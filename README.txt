@@ -12,3 +12,9 @@ Example that is registered, is an application to manipulate all the Web log.
 
 * User Ranking
     Get the user ranking of each page for Top 3.
+
+* Huahin Word Count
+  Word count for Huahin.
+
+* Natural Word Count
+  Word count for natural MapReduce.

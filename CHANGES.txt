@@ -1,0 +1,3 @@
+0.1.1
+ * add: Huahin Word Count
+ * add: Natural MapReduce Word Count
