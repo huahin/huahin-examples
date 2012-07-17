@@ -33,7 +33,7 @@ public class WordFilter extends Mapper<LongWritable, Text, Text, IntWritable> {
 
     public void map(LongWritable key, Text value, Context context)
             throws IOException,InterruptedException {
-        for (String s : StringUtils.split(value.toString())) {
+        for (String s : StringUtils.split(value.toString(), StringUtils.ESCAPE_CHAR, ' ')) {
             context.write(new Text(s), ONE);
         }
     }
