@@ -20,8 +20,8 @@ package org.huahinframework.examples.wordcount.huahin;
 import java.io.IOException;
 
 import org.huahinframework.core.Summarizer;
-import org.huahinframework.core.Writer;
 import org.huahinframework.core.io.Record;
+import org.huahinframework.core.writer.Writer;
 
 /**
  *
@@ -36,7 +36,7 @@ public class WordSummarizer extends Summarizer {
     }
 
     @Override
-    public void summarizer(Writer writer) throws IOException,
+    public void summarize(Writer writer) throws IOException,
             InterruptedException {
         int count = 0;
         while (hasNext()) {

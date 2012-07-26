@@ -24,9 +24,9 @@ import org.huahinframework.core.Filter;
 import org.huahinframework.core.SimpleJob;
 import org.huahinframework.core.SimpleJobTool;
 import org.huahinframework.core.Summarizer;
-import org.huahinframework.core.Writer;
 import org.huahinframework.core.io.Record;
 import org.huahinframework.core.util.StringUtil;
+import org.huahinframework.core.writer.Writer;
 
 /**
  *
@@ -76,7 +76,7 @@ public class DescSortJobTool extends SimpleJobTool {
 
     public static class URLSummarizer extends Summarizer {
         @Override
-        public void summarizer(Writer writer)
+        public void summarize(Writer writer)
                 throws IOException, InterruptedException {
             int cnt = 0;
             while (hasNext()) {

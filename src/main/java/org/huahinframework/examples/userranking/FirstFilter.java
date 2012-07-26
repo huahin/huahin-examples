@@ -21,8 +21,8 @@ import java.io.IOException;
 import java.net.URI;
 
 import org.huahinframework.core.Filter;
-import org.huahinframework.core.Writer;
 import org.huahinframework.core.io.Record;
+import org.huahinframework.core.writer.Writer;
 
 /**
  *

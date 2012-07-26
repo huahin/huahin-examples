@@ -20,8 +20,8 @@ package org.huahinframework.examples.pathranking;
 import java.io.IOException;
 
 import org.huahinframework.core.Summarizer;
-import org.huahinframework.core.Writer;
 import org.huahinframework.core.io.Record;
+import org.huahinframework.core.writer.Writer;
 
 /**
  *
@@ -32,7 +32,7 @@ public class SecondSummarizer extends Summarizer {
     }
 
     @Override
-    public void summarizer(Writer writer)
+    public void summarize(Writer writer)
             throws IOException, InterruptedException {
         int rank = 1;
         while (hasNext()) {
