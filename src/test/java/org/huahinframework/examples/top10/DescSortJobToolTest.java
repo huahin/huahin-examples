@@ -38,7 +38,7 @@ public class DescSortJobToolTest extends JobDriver {
     public void test()
             throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException {
         addJob(LABELS, StringUtil.TAB, false).setFilter(URLFilter.class)
-                                             .setSummaizer(URLSummarizer.class);
+                                             .setSummarizer(URLSummarizer.class);
 
         List<String> input = new ArrayList<String>();
         for (int i = 23; i >= 0; i--) {

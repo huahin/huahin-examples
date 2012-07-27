@@ -44,9 +44,9 @@ public class UserRankingJobTool extends SimpleJobTool {
 
         SimpleJob job1 = addJob(labels, StringUtil.TAB);
         job1.setFilter(FirstFilter.class);
-        job1.setSummaizer(FirstSummarizer.class);
+        job1.setSummarizer(FirstSummarizer.class);
 
         SimpleJob job2 = addJob();
-        job2.setSummaizer(SecondSummarizer.class);
+        job2.setSummarizer(SecondSummarizer.class);
     }
 }

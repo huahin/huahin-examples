@@ -38,6 +38,6 @@ public class HuahinWordCountTool extends SimpleJobTool {
     protected void setup() throws Exception {
         SimpleJob job1 = addJob(" ");
         job1.setFilter(WordFilter.class);
-        job1.setSummaizer(WordSummarizer.class, true);
+        job1.setSummarizer(WordSummarizer.class, true);
     }
 }

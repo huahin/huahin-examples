@@ -104,6 +104,6 @@ public class DescSortJobTool extends SimpleJobTool {
 
         SimpleJob job = addJob(labels, StringUtil.TAB);
         job.setFilter(URLFilter.class);
-        job.setSummaizer(URLSummarizer.class);
+        job.setSummarizer(URLSummarizer.class);
     }
 }

@@ -39,8 +39,8 @@ public class PathRankingJobToolTest extends JobDriver {
     public void test()
             throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException {
         addJob(LABELS, StringUtil.TAB, false).setFilter(FirstFilter.class)
-                                             .setSummaizer(FirstSummarizer.class);
-        addJob().setSummaizer(SecondSummarizer.class);
+                                             .setSummarizer(FirstSummarizer.class);
+        addJob().setSummarizer(SecondSummarizer.class);
 
         List<String> input = new ArrayList<String>();
         int uu = 1;
