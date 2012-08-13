@@ -18,6 +18,7 @@
 package org.huahinframework.examples;
 
 import org.huahinframework.core.Runner;
+import org.huahinframework.examples.joinpathranking.JoinPathJobTool;
 import org.huahinframework.examples.pathranking.PathRankingJobTool;
 import org.huahinframework.examples.top10.DescSortJobTool;
 import org.huahinframework.examples.userranking.UserRankingJobTool;
@@ -32,7 +33,7 @@ public class Jobs {
      * @param args
      */
     public static void main(String[] args) {
-        if (args.length != 3) {
+        if (args.length != 3 && args.length != 4) {
             System.err.println("[jobName] args...");
             System.exit(-1);
         }
@@ -50,6 +51,7 @@ public class Jobs {
         runner.addJob("UserRanking", UserRankingJobTool.class);
         runner.addJob("HuahinWordCount", HuahinWordCountTool.class);
         runner.addJob("NaturalWordCount", NaturalWordCountTool.class);
+        runner.addJob("JoinPath", JoinPathJobTool.class);
 
         int status = runner.run(jobName, newArgs);
         System.exit(status);
