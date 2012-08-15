@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahinframework.examples.joinpathranking;
+package org.huahinframework.examples.joinpath;
 
 import java.io.IOException;
 
@@ -51,9 +51,6 @@ public class FirstSummarizer extends Summarizer {
 
         Record emitRecord = new Record();
         emitRecord.addGrouping("DATE", getGroupingRecord().getGroupingString("DATE"));
-
-        emitRecord.addSort(uu, Record.SORT_UPPER, 1);
-
         emitRecord.addValue("PATH", getGroupingRecord().getGroupingString("PATH"));
         emitRecord.addValue("PV", pv);
         emitRecord.addValue("UU", uu);

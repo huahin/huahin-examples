@@ -18,7 +18,7 @@
 package org.huahinframework.examples;
 
 import org.huahinframework.core.Runner;
-import org.huahinframework.examples.joinpathranking.JoinPathJobTool;
+import org.huahinframework.examples.joinpath.JoinPathJobTool;
 import org.huahinframework.examples.pathranking.PathRankingJobTool;
 import org.huahinframework.examples.top10.DescSortJobTool;
 import org.huahinframework.examples.userranking.UserRankingJobTool;

@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahinframework.examples.joinpathranking;
+package org.huahinframework.examples.joinpath;
 
 import org.huahinframework.core.SimpleJob;
 import org.huahinframework.core.SimpleJobTool;

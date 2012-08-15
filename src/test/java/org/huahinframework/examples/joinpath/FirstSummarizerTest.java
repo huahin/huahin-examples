@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahinframework.examples.pathranking;
+package org.huahinframework.examples.joinpath;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,6 @@ import java.util.List;
 import org.huahinframework.core.Summarizer;
 import org.huahinframework.core.io.Record;
 import org.huahinframework.unit.SummarizerDriver;
-import org.huahinframework.examples.pathranking.FirstSummarizer;
 import org.junit.Test;
 
 /**
@@ -34,17 +33,17 @@ public class FirstSummarizerTest extends SummarizerDriver {
     @Test
     public void test() {
         List<Record> input = new ArrayList<Record>();
-        input.add(createInputRecord("/index.html", "1"));
-        input.add(createInputRecord("/index.html", "1"));
-        input.add(createInputRecord("/index.html", "1"));
+        input.add(createInputRecord("TOP PAGE", "1"));
+        input.add(createInputRecord("TOP PAGE", "1"));
+        input.add(createInputRecord("TOP PAGE", "1"));
 
-        input.add(createInputRecord("/index.html", "2"));
-        input.add(createInputRecord("/index.html", "2"));
+        input.add(createInputRecord("TOP PAGE", "2"));
+        input.add(createInputRecord("TOP PAGE", "2"));
 
-        input.add(createInputRecord("/index.html", "3"));
+        input.add(createInputRecord("TOP PAGE", "3"));
 
         List<Record> output = new ArrayList<Record>();
-        output.add(createOutputRecord("/index.html", 6, 3));
+        output.add(createOutputRecord("TOP PAGE", 6, 3));
 
         run(input, output);
     }
