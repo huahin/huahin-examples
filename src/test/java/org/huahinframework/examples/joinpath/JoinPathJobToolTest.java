@@ -49,9 +49,6 @@ public class JoinPathJobToolTest extends JobDriver {
         addJob(LABELS, StringUtil.TAB, false).setFilter(FirstFilter.class)
                                              .setSummarizer(FirstSummarizer.class);
 
-//        l.add("^https?://localdomain.local/bbs.html.*" + StringUtil.TAB + "BBS");
-//        l.add("^https?://localdomain.local/campaign.*" + StringUtil.TAB + "CAMPAIGN");
-
         List<String> input = new ArrayList<String>();
         createInputData(50, 32, "/", input);
         createInputData(43, 21, "/search?p=foo", input);

@@ -28,7 +28,7 @@ import org.huahinframework.core.util.StringUtil;
 public class JoinPathUtils {
     public static List<String> createMaster() {
         List<String> l = new ArrayList<String>();
-        l.add("^https?://localdomain.local/$|^https?://localdomain.local/\\?.*" + StringUtil.TAB + "TOP PAGE");
+        l.add("^https?://localdomain.local/$" + StringUtil.TAB + "TOP PAGE");
         l.add("^https?://localdomain.local/search.*" + StringUtil.TAB + "SEARCH");
         l.add("^https?://localdomain.local/watch.*" + StringUtil.TAB + "WATCH");
         l.add("^https?://localdomain.local/bbs.html.*" + StringUtil.TAB + "BBS");
