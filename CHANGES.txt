@@ -1,3 +1,6 @@
+0.1.2
+ * add: Path join example
+
 0.1.1
  * add: Huahin Word Count
  * add: Natural MapReduce Word Count
