@@ -154,12 +154,12 @@
     <dependency>
       <groupId>org.huahinframework</groupId>
       <artifactId>huahin-core</artifactId>
-      <version>0.1.2-SNAPSHOT</version>
+      <version>0.1.2</version>
     </dependency>
     <dependency>
       <groupId>org.huahinframework</groupId>
       <artifactId>huahin-unit</artifactId>
-      <version>0.1.2-SNAPSHOT</version>
+      <version>0.1.2</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
