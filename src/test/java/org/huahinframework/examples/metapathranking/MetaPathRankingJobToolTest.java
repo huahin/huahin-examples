@@ -1,0 +1,88 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.huahinframework.examples.metapathranking;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.huahinframework.core.SimpleJob;
+import org.huahinframework.core.io.Record;
+import org.huahinframework.core.util.StringUtil;
+import org.huahinframework.examples.pathranking.FirstFilter;
+import org.huahinframework.examples.pathranking.FirstSummarizer;
+import org.huahinframework.examples.pathranking.SecondSummarizer;
+import org.huahinframework.unit.JobDriver;
+import org.junit.Test;
+
+/**
+ *
+ */
+public class MetaPathRankingJobToolTest extends JobDriver {
+    private final String[] labels = { "USER", "DATE", "REFERER", "URL" };
+    private final String[] firstFileterLabels = { "DATE", "PATH", "USER", };
+    private final String[] firstSummarizerLabels = { "DATE", "PATH", "PV", "UU" };
+    private final String[] secondSummarizerLabels = { "PATH", "RANK", "PV", "UU" };
+
+    @Test
+    public void test()
+            throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+        SimpleJob job1 = addJob(labels, StringUtil.TAB, false);
+        job1.setFilter(FirstFilter.class)
+            .withFilterOutputLabels(firstFileterLabels);
+        job1.setSummarizer(FirstSummarizer.class)
+            .withSummarizerOutputLabels(firstSummarizerLabels);
+
+        SimpleJob job2 = addJob();
+        job2.setSummarizer(SecondSummarizer.class)
+            .withSummarizerOutputLabels(secondSummarizerLabels);
+
+        List<String> input = new ArrayList<String>();
+        int uu = 1;
+        for (int i = 1; i <= 5; i++) {
+            for (int j = uu; j <= 5; j++) {
+                input.add(createInputData(String.valueOf(j), "/index" + i + ".html"));
+            }
+            uu++;
+        }
+
+        List<Record> output = new ArrayList<Record>();
+        int num = 5;
+        for (int i = 1; i <= 5; i++, num--) {
+            output.add(createOutputData("/index" + i + ".html", i, num, num));
+        }
+
+        run(input, output, true);
+    }
+
+    private String createInputData(String user, String path) {
+        return user + "\t2000-01-01 00:00:00\t\thttp://localdomain.local" + path;
+    }
+
+    private Record createOutputData(String path, int rank, int pv, int uu) {
+        Record record = new Record();
+        record.addSort(uu, Record.SORT_UPPER, 1);
+
+        record.addGrouping("DATE", "2000-01-01");
+        record.addValue("PATH", path);
+        record.addValue("RANK", rank);
+        record.addValue("PV", pv);
+        record.addValue("UU", uu);
+        return record;
+    }
+}

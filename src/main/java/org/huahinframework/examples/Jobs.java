@@ -19,6 +19,7 @@ package org.huahinframework.examples;
 
 import org.huahinframework.core.Runner;
 import org.huahinframework.examples.joinpath.JoinPathJobTool;
+import org.huahinframework.examples.metapathranking.MetaPathRankingJobTool;
 import org.huahinframework.examples.pathranking.PathRankingJobTool;
 import org.huahinframework.examples.top10.DescSortJobTool;
 import org.huahinframework.examples.userranking.UserRankingJobTool;
@@ -48,6 +49,7 @@ public class Jobs {
         Runner runner = new Runner();
         runner.addJob("DescSort", DescSortJobTool.class);
         runner.addJob("PathRanking", PathRankingJobTool.class);
+        runner.addJob("MetaPathRanking", MetaPathRankingJobTool.class);
         runner.addJob("UserRanking", UserRankingJobTool.class);
         runner.addJob("HuahinWordCount", HuahinWordCountTool.class);
         runner.addJob("NaturalWordCount", NaturalWordCountTool.class);
