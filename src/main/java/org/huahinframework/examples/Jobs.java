@@ -18,6 +18,8 @@
 package org.huahinframework.examples;
 
 import org.huahinframework.core.Runner;
+import org.huahinframework.examples.bigjoin.BigJoinJobTool;
+import org.huahinframework.examples.bigjoin.BigJoinOnlyJoinJobTool;
 import org.huahinframework.examples.joinpath.JoinPathJobTool;
 import org.huahinframework.examples.metapathranking.MetaPathRankingJobTool;
 import org.huahinframework.examples.pathranking.PathRankingJobTool;
@@ -54,6 +56,8 @@ public class Jobs {
         runner.addJob("HuahinWordCount", HuahinWordCountTool.class);
         runner.addJob("NaturalWordCount", NaturalWordCountTool.class);
         runner.addJob("JoinPath", JoinPathJobTool.class);
+        runner.addJob("BigJoinOnlyJoin", BigJoinOnlyJoinJobTool.class);
+        runner.addJob("BigJoin", BigJoinJobTool.class);
 
         int status = runner.run(jobName, newArgs);
         System.exit(status);
