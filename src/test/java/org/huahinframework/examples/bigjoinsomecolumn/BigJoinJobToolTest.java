@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahinframework.examples.bigjoin;
+package org.huahinframework.examples.bigjoinsomecolumn;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -31,9 +31,9 @@ import org.junit.Test;
 /**
  *
  */
-public class BigJoinOnlyJoinJobToolTest extends JobDriver {
-    private final String[] LABELS = { "ID", "USER", "DATE", "REFERER", "URL" };
-    private static final String[] MASTER_LABELS = { "ID", "NAME" };
+public class BigJoinJobToolTest extends JobDriver {
+    private final String[] LABELS = { "ID1", "ID2", "USER", "DATE", "REFERER", "URL" };
+    private static final String[] MASTER_LABELS = { "ID1", "ID2", "NAME" };
 
     private List<String> masterData = new ArrayList<String>();
 
@@ -41,16 +41,16 @@ public class BigJoinOnlyJoinJobToolTest extends JobDriver {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        masterData.add("1\tUSER1");
-        masterData.add("2\tUSER2");
-        masterData.add("3\tUSER3");
-        masterData.add("4\tUSER4");
+        masterData.add("1\t1\tUSER1");
+        masterData.add("2\t2\tUSER2");
+        masterData.add("3\t3\tUSER3");
+        masterData.add("4\t4\tUSER4");
     }
 
     @Test
     public void test()
             throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException, URISyntaxException {
-        addJob(LABELS, StringUtil.TAB, false);
+        addJob(LABELS, StringUtil.TAB, false).setFilter(FirstFilter.class);
 
         List<String> input = new ArrayList<String>();
         input.add(createInputData(1));
@@ -66,31 +66,28 @@ public class BigJoinOnlyJoinJobToolTest extends JobDriver {
         output.add(createOutputData(4, false));
         output.add(createOutputData(5, true));
 
-        setBigJoin(MASTER_LABELS, "ID", "ID", masterData);
+        String[] jm = { "ID1", "ID2" };
+        String[] jd = { "ID1", "ID2" };
+        setBigJoin(MASTER_LABELS, jm, jd, masterData);
 
         run(input, output, true);
     }
 
     private String createInputData(int i) {
-        return i + "\t"+ i + "\t2000-01-01 00:00:00\t\thttp://localdomain.local/";
+        return i + "\t" + i + "\t"+ i + "\t2000-01-01 00:00:00\t\thttp://localdomain.local/";
     }
 
     private Record createOutputData(int i, boolean isNull) {
         Record r = new Record();
-        r.addGrouping("ID", String.valueOf(i));
-        r.addGrouping("USER", String.valueOf(i));
-        r.addGrouping("DATE", "2000-01-01 00:00:00");
-        r.addGrouping("REFERER", "");
-        r.addGrouping("URL", "http://localdomain.local/");
+        r.addGrouping("ID1", String.valueOf(i));
+        r.addGrouping("ID2", String.valueOf(i));
+        r.addValue("USER", String.valueOf(i));
 
         if (isNull) {
-            r.addGrouping("ID", null);
-            r.addGrouping("NAME", null);
+            r.addValue("NAME", null);
         } else {
-            r.addGrouping("ID", String.valueOf(i));
-            r.addGrouping("NAME", "USER" + i);
+            r.addValue("NAME", "USER" + i);
         }
-        r.setValueNothing(true);
         return r;
     }
 }

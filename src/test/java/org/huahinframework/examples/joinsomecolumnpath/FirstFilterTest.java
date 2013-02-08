@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahinframework.examples.pathranking;
+package org.huahinframework.examples.joinsomecolumnpath;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -26,28 +26,52 @@ import org.huahinframework.core.Filter;
 import org.huahinframework.core.io.Record;
 import org.huahinframework.core.util.StringUtil;
 import org.huahinframework.unit.FilterDriver;
-import org.huahinframework.examples.pathranking.FirstFilter;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
  *
  */
 public class FirstFilterTest extends FilterDriver {
-    private final String[] LABELS = { "USER", "DATE", "REFERER", "URL" };
+    private final String[] LABELS = { "USER", "DATE", "REFERER", "URL", "ID" };
+    private static final String[] MASTER_LABELS = { "URL", "ID", "NAME" };
+
+    private List<String> masterData;
+
+    @Override
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        masterData = JoinPathUtils.createMaster();
+    }
 
     @Test
-    public void test() throws IOException, URISyntaxException {
-        String input = "1\t2000-01-01 00:00:00\t\thttp://localdomain.local/index.html";
+    public void hit() throws IOException, URISyntaxException {
+        String input = "1\t2000-01-01 00:00:00\t\thttp://localdomain.local/\t1";
 
         List<Record> output = new ArrayList<Record>();
         Record record = new Record();
         record.addGrouping("DATE", "2000-01-01");
-        record.addGrouping("PATH", "/index.html");
+        record.addGrouping("PATH", "TOP PAGE");
         record.addSort("1", Record.SORT_LOWER, 1);
         record.addValue("USER", "1");
         output.add(record);
 
+        String[] jm = { "URL", "ID" };
+        String[] jd = { "URL", "ID" };
+        setSimpleJoin(MASTER_LABELS, jm, jd, true, masterData);
+
         run(LABELS, StringUtil.TAB, false, input, output);
+    }
+
+    @Test
+    public void notHit() throws IOException, URISyntaxException {
+        String input = "1\t2000-01-01 00:00:00\t\thttp://localdomain.local/foo.html\t1";
+
+        String[] jm = { "URL", "ID" };
+        String[] jd = { "URL", "ID" };
+        setSimpleJoin(MASTER_LABELS, jm, jd, true, masterData);
+        run(LABELS, StringUtil.TAB, false, input, null);
     }
 
     @Override

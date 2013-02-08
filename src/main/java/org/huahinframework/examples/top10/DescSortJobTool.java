@@ -100,7 +100,7 @@ public class DescSortJobTool extends SimpleJobTool {
 
     @Override
     protected void setup() throws Exception {
-        final String[] labels = new String[] { "USER", "DATE", "REFERER", "URL" };
+        final String[] labels = { "USER", "DATE", "REFERER", "URL" };
 
         SimpleJob job = addJob(labels, StringUtil.TAB);
         job.setFilter(URLFilter.class);

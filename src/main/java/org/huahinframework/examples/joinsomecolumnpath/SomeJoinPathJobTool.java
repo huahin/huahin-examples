@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahinframework.examples.pathranking;
+package org.huahinframework.examples.joinsomecolumnpath;
 
 import org.huahinframework.core.SimpleJob;
 import org.huahinframework.core.SimpleJobTool;
@@ -24,7 +24,8 @@ import org.huahinframework.core.util.StringUtil;
 /**
  *
  */
-public class PathRankingJobTool extends SimpleJobTool {
+public class SomeJoinPathJobTool extends SimpleJobTool {
+
     @Override
     protected String setInputPath(String[] args) {
         return args[0];
@@ -40,13 +41,15 @@ public class PathRankingJobTool extends SimpleJobTool {
      */
     @Override
     protected void setup() throws Exception {
-        final String[] labels = { "USER", "DATE", "REFERER", "URL" };
+        final String[] labels = { "USER", "DATE", "REFERER", "URL", "ID" };
+        final String[] masterLabels = { "URL", "ID", "NAME" };
 
         SimpleJob job1 = addJob(labels, StringUtil.TAB);
         job1.setFilter(FirstFilter.class);
         job1.setSummarizer(FirstSummarizer.class);
 
-        SimpleJob job2 = addJob();
-        job2.setSummarizer(SecondSummarizer.class);
+        String[] jm = { "URL", "ID" };
+        String[] jd = { "URL", "ID" };
+        job1.setSimpleJoin(masterLabels, jm, jd, getArgs()[2], true);
     }
 }

@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahinframework.examples.pathranking;
+package org.huahinframework.examples.joinsomecolumnpath;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -25,53 +25,68 @@ import java.util.List;
 import org.huahinframework.core.io.Record;
 import org.huahinframework.core.util.StringUtil;
 import org.huahinframework.unit.JobDriver;
-import org.huahinframework.examples.pathranking.FirstFilter;
-import org.huahinframework.examples.pathranking.FirstSummarizer;
-import org.huahinframework.examples.pathranking.SecondSummarizer;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
  *
  */
-public class PathRankingJobToolTest extends JobDriver {
-    private final String[] LABELS = { "USER", "DATE", "REFERER", "URL" };
+public class JoinPathJobToolTest extends JobDriver {
+    private final String[] LABELS = { "USER", "DATE", "REFERER", "URL", "ID" };
+    private static final String[] MASTER_LABELS = { "URL", "ID", "NAME" };
+
+    private List<String> masterData;
+
+    @Override
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        masterData = JoinPathUtils.createMaster();
+    }
 
     @Test
     public void test()
             throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException, URISyntaxException {
         addJob(LABELS, StringUtil.TAB, false).setFilter(FirstFilter.class)
                                              .setSummarizer(FirstSummarizer.class);
-        addJob().setSummarizer(SecondSummarizer.class);
 
         List<String> input = new ArrayList<String>();
-        int uu = 1;
-        for (int i = 1; i <= 100; i++) {
-            for (int j = uu; j <= 100; j++) {
-                input.add(createInputData(String.valueOf(j), "/index" + i + ".html"));
-            }
-            uu++;
-        }
+        createInputData(1, 50, 32, "/", input);
+        createInputData(2, 43, 21, "/search?p=foo", input);
+        createInputData(3, 35, 20, "/watch/index.html", input);
+        createInputData(4, 39, 10, "/bbs.html?page=100", input);
+        createInputData(5, 20, 8, "/campaign/1.html", input);
+        createInputData(5, 27, 6, "/campaign/2.html", input);
+        createInputData(-1, 34, 19, "/foo.html", input);
 
         List<Record> output = new ArrayList<Record>();
-        int num = 100;
-        for (int i = 1; i <= 50; i++, num--) {
-            output.add(createOutputData("/index" + i + ".html", i, num, num));
-        }
+        output.add(createOutputData("BBS", 39, 10));
+        output.add(createOutputData("CAMPAIGN", 47, 8));
+        output.add(createOutputData("SEARCH", 43, 21));
+        output.add(createOutputData("TOP PAGE", 50, 32));
+        output.add(createOutputData("WATCH", 35, 20));
+
+        String[] jm = { "URL", "ID" };
+        String[] jd = { "URL", "ID" };
+        setSimpleJoin(MASTER_LABELS, jm, jd, true, masterData);
 
         run(input, output, true);
     }
 
-    private String createInputData(String user, String path) {
-        return user + "\t2000-01-01 00:00:00\t\thttp://localdomain.local" + path;
+    private void createInputData(int id, int pv, int uu, String path, List<String> input) {
+        int i = 1;
+        for (; i <= uu; i++) {
+            input.add(i + "\t2000-01-01 00:00:00\t\thttp://localdomain.local" + path + "\t" + id);
+        }
+        for (; i <= pv; i++) {
+            input.add(1 + "\t2000-01-01 00:00:00\t\thttp://localdomain.local" + path + "\t" + id);
+        }
     }
 
-    private Record createOutputData(String path, int rank, int pv, int uu) {
+    private Record createOutputData(String path, int pv, int uu) {
         Record record = new Record();
-        record.addSort(uu, Record.SORT_UPPER, 1);
-
         record.addGrouping("DATE", "2000-01-01");
         record.addValue("PATH", path);
-        record.addValue("RANK", rank);
         record.addValue("PV", pv);
         record.addValue("UU", uu);
         return record;

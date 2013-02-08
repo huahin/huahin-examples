@@ -41,8 +41,8 @@ public class JoinPathJobTool extends SimpleJobTool {
      */
     @Override
     protected void setup() throws Exception {
-        final String[] labels = new String[] { "USER", "DATE", "REFERER", "URL" };
-        final String[] masterLabels = new String[] { "URL", "NAME" };
+        final String[] labels = { "USER", "DATE", "REFERER", "URL" };
+        final String[] masterLabels = { "URL", "NAME" };
 
         SimpleJob job1 = addJob(labels, StringUtil.TAB);
         job1.setFilter(FirstFilter.class);

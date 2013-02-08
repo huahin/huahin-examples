@@ -18,6 +18,7 @@
 package org.huahinframework.examples.joinpath;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,8 +32,8 @@ import org.junit.Test;
  *
  */
 public class JoinPathJobToolTest extends JobDriver {
-    private final String[] LABELS = new String[] { "USER", "DATE", "REFERER", "URL" };
-    private static final String[] MASTER_LABELS = new String[] { "URL", "NAME" };
+    private final String[] LABELS = { "USER", "DATE", "REFERER", "URL" };
+    private static final String[] MASTER_LABELS = { "URL", "NAME" };
 
     private List<String> masterData;
 
@@ -45,7 +46,7 @@ public class JoinPathJobToolTest extends JobDriver {
 
     @Test
     public void test()
-            throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+            throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException, URISyntaxException {
         addJob(LABELS, StringUtil.TAB, false).setFilter(FirstFilter.class)
                                              .setSummarizer(FirstSummarizer.class);
 

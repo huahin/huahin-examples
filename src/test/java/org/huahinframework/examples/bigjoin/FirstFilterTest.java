@@ -17,10 +17,11 @@
  */
 package org.huahinframework.examples.bigjoin;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.huahinframework.core.DataFormatException;
 import org.huahinframework.core.Filter;
 import org.huahinframework.core.io.Record;
 import org.huahinframework.core.util.StringUtil;
@@ -32,8 +33,8 @@ import org.junit.Test;
  *
  */
 public class FirstFilterTest extends FilterDriver {
-    private final String[] LABELS = new String[] { "ID", "USER", "DATE", "REFERER", "URL" };
-    private static final String[] MASTER_LABELS = new String[] { "ID", "NAME" };
+    private final String[] LABELS = { "ID", "USER", "DATE", "REFERER", "URL" };
+    private static final String[] MASTER_LABELS = { "ID", "NAME" };
 
     List<String> masterData = new ArrayList<String>();
 
@@ -47,7 +48,7 @@ public class FirstFilterTest extends FilterDriver {
     }
 
     @Test
-    public void hit() throws DataFormatException {
+    public void hit() throws IOException, URISyntaxException {
         String input = "1\t1\t2000-01-01 00:00:00\t\thttp://localdomain.local/";
 
         List<Record> output = new ArrayList<Record>();
@@ -62,7 +63,7 @@ public class FirstFilterTest extends FilterDriver {
     }
 
     @Test
-    public void notHit() throws DataFormatException {
+    public void notHit() throws IOException, URISyntaxException {
         String input = "5\t5\t2000-01-01 00:00:00\t\thttp://localdomain.local/";
 
         List<Record> output = new ArrayList<Record>();

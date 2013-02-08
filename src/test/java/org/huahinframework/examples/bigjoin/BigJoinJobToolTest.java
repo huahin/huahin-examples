@@ -18,6 +18,7 @@
 package org.huahinframework.examples.bigjoin;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,8 +32,8 @@ import org.junit.Test;
  *
  */
 public class BigJoinJobToolTest extends JobDriver {
-    private final String[] LABELS = new String[] { "ID", "USER", "DATE", "REFERER", "URL" };
-    private static final String[] MASTER_LABELS = new String[] { "ID", "NAME" };
+    private final String[] LABELS = { "ID", "USER", "DATE", "REFERER", "URL" };
+    private static final String[] MASTER_LABELS = { "ID", "NAME" };
 
     private List<String> masterData = new ArrayList<String>();
 
@@ -48,7 +49,7 @@ public class BigJoinJobToolTest extends JobDriver {
 
     @Test
     public void test()
-            throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+            throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException, URISyntaxException {
         addJob(LABELS, StringUtil.TAB, false).setFilter(FirstFilter.class);
 
         List<String> input = new ArrayList<String>();

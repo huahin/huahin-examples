@@ -46,8 +46,8 @@ public class BigJoinOnlyJoinJobTool extends SimpleJobTool {
      */
     @Override
     protected void setup() throws Exception {
-        final String[] labels = new String[] { "ID", "USER", "DATE", "REFERER", "URL" };
-        final String[] masterLabels = new String[] { "ID", "NAME" };
+        final String[] labels = { "ID", "USER", "DATE", "REFERER", "URL" };
+        final String[] masterLabels = { "ID", "NAME" };
 
         SimpleJob job = addJob(labels, StringUtil.TAB);
         job.setBigJoin(masterLabels, "ID", "ID", getArgs()[2]);

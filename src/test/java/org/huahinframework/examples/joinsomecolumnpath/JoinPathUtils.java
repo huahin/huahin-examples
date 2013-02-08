@@ -15,38 +15,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahinframework.examples.pathranking;
+package org.huahinframework.examples.joinsomecolumnpath;
 
-import org.huahinframework.core.SimpleJob;
-import org.huahinframework.core.SimpleJobTool;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.huahinframework.core.util.StringUtil;
 
 /**
  *
  */
-public class PathRankingJobTool extends SimpleJobTool {
-    @Override
-    protected String setInputPath(String[] args) {
-        return args[0];
-    }
-
-    @Override
-    protected String setOutputPath(String[] args) {
-        return args[1];
-    }
-
-    /* (non-Javadoc)
-     * @see org.huahin.core.SimpleJobTool#setup()
-     */
-    @Override
-    protected void setup() throws Exception {
-        final String[] labels = { "USER", "DATE", "REFERER", "URL" };
-
-        SimpleJob job1 = addJob(labels, StringUtil.TAB);
-        job1.setFilter(FirstFilter.class);
-        job1.setSummarizer(FirstSummarizer.class);
-
-        SimpleJob job2 = addJob();
-        job2.setSummarizer(SecondSummarizer.class);
+public class JoinPathUtils {
+    public static List<String> createMaster() {
+        List<String> l = new ArrayList<String>();
+        l.add("^https?://localdomain.local/$" + StringUtil.TAB + 1 + StringUtil.TAB + "TOP PAGE");
+        l.add("^https?://localdomain.local/search.*" + StringUtil.TAB + 2 + StringUtil.TAB + "SEARCH");
+        l.add("^https?://localdomain.local/watch.*" + StringUtil.TAB + 3 + StringUtil.TAB + "WATCH");
+        l.add("^https?://localdomain.local/bbs.html.*" + StringUtil.TAB + 4 + StringUtil.TAB + "BBS");
+        l.add("^https?://localdomain.local/campaign.*" + StringUtil.TAB + 5 + StringUtil.TAB + "CAMPAIGN");
+        return l;
     }
 }

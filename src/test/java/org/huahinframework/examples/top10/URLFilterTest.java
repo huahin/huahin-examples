@@ -17,10 +17,11 @@
  */
 package org.huahinframework.examples.top10;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.huahinframework.core.DataFormatException;
 import org.huahinframework.core.Filter;
 import org.huahinframework.core.io.Record;
 import org.huahinframework.core.util.StringUtil;
@@ -33,10 +34,10 @@ import org.huahinframework.examples.top10.DescSortJobTool.URLFilter;
  *
  */
 public class URLFilterTest extends FilterDriver {
-    private final String[] LABELS = new String[] { "USER", "DATE", "REFERER", "URL" };
+    private final String[] LABELS = { "USER", "DATE", "REFERER", "URL" };
 
     @Test
-    public void test() throws DataFormatException {
+    public void test() throws IOException, URISyntaxException {
         String input = "1\t2000-01-01 00:00:00\t\thttp://localdomain.local/index.html";
 
         List<Record> output = new ArrayList<Record>();

@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huahinframework.examples.joinpath;
+package org.huahinframework.examples.bigjoinsomecolumn;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -33,40 +33,54 @@ import org.junit.Test;
  *
  */
 public class FirstFilterTest extends FilterDriver {
-    private final String[] LABELS = { "USER", "DATE", "REFERER", "URL" };
-    private static final String[] MASTER_LABELS = { "URL", "NAME" };
+    private final String[] LABELS = { "ID1", "ID2", "USER", "DATE", "REFERER", "URL" };
+    private static final String[] MASTER_LABELS = { "ID1", "ID2", "NAME" };
 
-    private List<String> masterData;
+    List<String> masterData = new ArrayList<String>();
 
     @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        masterData = JoinPathUtils.createMaster();
+        masterData.add("1\t1\tUSER1");
+        masterData.add("2\t2\tUSER2");
+        masterData.add("3\t3\tUSER3");
     }
 
     @Test
     public void hit() throws IOException, URISyntaxException {
-        String input = "1\t2000-01-01 00:00:00\t\thttp://localdomain.local/";
+        String input = "1\t1\t1\t2000-01-01 00:00:00\t\thttp://localdomain.local/";
 
         List<Record> output = new ArrayList<Record>();
         Record record = new Record();
-        record.addGrouping("DATE", "2000-01-01");
-        record.addGrouping("PATH", "TOP PAGE");
-        record.addSort("1", Record.SORT_LOWER, 1);
+        record.addGrouping("ID1", "1");
+        record.addGrouping("ID2", "1");
         record.addValue("USER", "1");
+        record.addValue("NAME", "USER1");
         output.add(record);
 
-        setSimpleJoin(MASTER_LABELS, "URL", "URL", true, masterData);
-
+        String[] jm = { "ID1", "ID2" };
+        String[] jd = { "ID1", "ID2" };
+        setBigJoin(MASTER_LABELS, jm, jd, masterData);
         run(LABELS, StringUtil.TAB, false, input, output);
     }
 
     @Test
     public void notHit() throws IOException, URISyntaxException {
-        String input = "1\t2000-01-01 00:00:00\t\thttp://localdomain.local/foo.html";
-        setSimpleJoin(MASTER_LABELS, "URL", "URL", true, masterData);
-        run(LABELS, StringUtil.TAB, false, input, null);
+        String input = "5\t5\t5\t2000-01-01 00:00:00\t\thttp://localdomain.local/";
+
+        List<Record> output = new ArrayList<Record>();
+        Record record = new Record();
+        record.addGrouping("ID1", "5");
+        record.addGrouping("ID2", "5");
+        record.addValue("USER", "5");
+        record.addValue("NAME", null);
+        output.add(record);
+
+        String[] jm = { "ID1", "ID2" };
+        String[] jd = { "ID1", "ID2" };
+        setBigJoin(MASTER_LABELS, jm, jd, masterData);
+        run(LABELS, StringUtil.TAB, false, input, output);
     }
 
     @Override

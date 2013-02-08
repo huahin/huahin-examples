@@ -18,6 +18,7 @@
 package org.huahinframework.examples.top10;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,10 +34,10 @@ import org.huahinframework.examples.top10.DescSortJobTool.URLSummarizer;
  *
  */
 public class DescSortJobToolTest extends JobDriver {
-    private final String[] LABELS = new String[] { "USER", "DATE", "REFERER", "URL" };
+    private final String[] LABELS = { "USER", "DATE", "REFERER", "URL" };
     @Test
     public void test()
-            throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+            throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException, URISyntaxException {
         addJob(LABELS, StringUtil.TAB, false).setFilter(URLFilter.class)
                                              .setSummarizer(URLSummarizer.class);
 
