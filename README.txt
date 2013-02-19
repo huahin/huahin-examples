@@ -18,3 +18,5 @@ Example that is registered, is an application to manipulate all the Web log.
 
 * Natural Word Count
   Word count for natural MapReduce.
+
+* And more

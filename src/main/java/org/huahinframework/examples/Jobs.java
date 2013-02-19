@@ -18,6 +18,8 @@
 package org.huahinframework.examples;
 
 import org.huahinframework.core.Runner;
+import org.huahinframework.examples.autojoin.AutoJoinJobTool;
+import org.huahinframework.examples.autojoinsomecolumn.AutoSomeJoinJobTool;
 import org.huahinframework.examples.bigjoin.BigJoinJobTool;
 import org.huahinframework.examples.bigjoin.BigJoinOnlyJoinJobTool;
 import org.huahinframework.examples.bigjoinsomecolumn.SomeBigJoinJobTool;
@@ -39,18 +41,6 @@ public class Jobs {
      * @param args
      */
     public static void main(String[] args) {
-        if (args.length != 3 && args.length != 4) {
-            System.err.println("[jobName] args...");
-            System.exit(-1);
-        }
-
-        // Remove the leading argument and call run
-        String jobName = args[0];
-        String[] newArgs = new String[args.length - 1];
-        for (int i = 1; i < args.length; ++i) {
-            newArgs[i - 1] = args[i];
-        }
-
         Runner runner = new Runner();
         runner.addJob("DescSort", DescSortJobTool.class);
         runner.addJob("PathRanking", PathRankingJobTool.class);
@@ -64,6 +54,24 @@ public class Jobs {
         runner.addJob("SomeJoin", SomeJoinPathJobTool.class);
         runner.addJob("SomeBigJoin", SomeBigJoinJobTool.class);
         runner.addJob("SomeBigJoinOnly", SomeBigJoinOnlyJoinJobTool.class);
+        runner.addJob("AutoJoin", AutoJoinJobTool.class);
+        runner.addJob("AutoSomeJoin", AutoSomeJoinJobTool.class);
+
+        if (args.length != 3 && args.length != 4) {
+            System.err.println("[jobName] args...");
+            System.err.println("jobNames ...");
+            for (String s : runner.getJobList()) {
+                System.err.println("  " + s);
+            }
+            System.exit(-1);
+        }
+
+        // Remove the leading argument and call run
+        String jobName = args[0];
+        String[] newArgs = new String[args.length - 1];
+        for (int i = 1; i < args.length; ++i) {
+            newArgs[i - 1] = args[i];
+        }
 
         int status = runner.run(jobName, newArgs);
         System.exit(status);
